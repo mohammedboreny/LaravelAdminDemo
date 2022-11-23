@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,9 @@ class CrudController extends Controller
      */
     public function index()
     {
-        return view('Admin');
+        $users = User::latest()->paginate(10);
+
+        return view('/Admin',compact('users'));
     }
 
     /**

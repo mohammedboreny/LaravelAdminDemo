@@ -15,5 +15,9 @@ use App\Http\Controllers\SignController;
 */
 
 
+
 Route::resource("/admin",CrudController::class);
+
+
+
 Route::resource("/login",SignController::class);
