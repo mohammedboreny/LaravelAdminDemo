@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->string('firstName')->nullable(false)->change();
+            $table->string('lastName')->nullable(false)->change();
+            $table->string('company_name')->index()->nullable();
+            $table->foreign('companies_name')->references('name')->on('companies')->onDelete('cascade');
+            $table->string('email')->nullable();
+            $table->string('phoneNumber')->nullable();
             $table->timestamps();
         });
     }

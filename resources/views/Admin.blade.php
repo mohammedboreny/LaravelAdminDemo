@@ -31,22 +31,22 @@
                         <div class="modal-body">
                             <form method="">
                                 <div class="mb-3">
-                                    <label for="floatingInput" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="floatingInput"
+                                    <label for="floatingInput" class="form-label">Name</label>
+                                    <input type="email" name="name" class="form-control" id="floatingInput"
                                         aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-3">
                                     <label for="floatingInput">Email address</label>
-                                    <input class="form-control" type="text" placeholder="Default input"
+                                    <input name="email" class="form-control" type="text" placeholder="Default input"
                                         id='floatingInput' aria-label="default input example">
                                 </div>
                                 <div class="mb-3">
                                     <label for="floatingInput" class="form-label">Website</label>
-                                    <input type="text" class="form-control" id="floatingInput">
+                                    <input type="text" name="website" class="form-control" id="floatingInput">
                                 </div>
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Logo</label>
-                                    <input class="form-control" type="file" id="formFile">
+                                    <input class="form-control" type="file" name="img" id="formFile">
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -72,19 +72,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            {{-- @foreach ($users as $user) --}}
                                 <tr>
-                                    <th scope="row">{{ $user->id }}</th>
+                                    {{-- <th scope="row">{{ $user->id }}</th>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->email }}</td> --}}
+                                    
 
                                 </tr>
-                            @endforeach
+                            {{-- @endforeach --}}
                         </tbody>
                     </table>
 
                     <div class="d-flex">
-                        {!! $users->links() !!}
+                        {{-- {!! $users->links() !!} --}}
                     </div>
                 </div>
 

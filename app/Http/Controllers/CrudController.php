@@ -17,9 +17,9 @@ class CrudController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $Companies = Companies::latest()->paginate(10);
 
-        return view('/Admin', compact('users'));
+        return view('/Admin', compact('Companies'));
     }
 
     /**
