@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CrudController;
-use App\Http\Controllers\SignController;
+use app\Http\Controllers\CrudController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +16,8 @@ use App\Http\Controllers\SignController;
 */
 
 
+Route::resource("/admin", CrudController::class);
 
-Route::resource("/admin",CrudController::class);
+Auth::routes();
 
-
-
-Route::resource("/login",SignController::class);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
