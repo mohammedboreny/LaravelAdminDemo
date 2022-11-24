@@ -21,3 +21,4 @@ Route::resource("admin", CrudController::class);
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

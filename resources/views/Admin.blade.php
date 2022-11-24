@@ -2,7 +2,22 @@
 
 @section('content')
     <div class="jumbotron jumbotron-fluid bg-grey">
-
+        @if (Session::has('message'))
+            <div class="alert alert-success text-center">
+                {{ Session::get('message') }}
+                @php
+                    Session::forget('message');
+                @endphp
+            </div>
+        @endif
+        @if (Session::has('status'))
+            <div class="alert alert-success text-center">
+                {{ Session::get('status') }}
+                @php
+                    Session::forget('status');
+                @endphp
+            </div>
+        @endif
         <div class="container ">
 
             <h1 class="display-3 text-center">Admin Dashboard </h1>
@@ -11,7 +26,7 @@
         </div>
     </div>
 
-    <div class="card w-50">
+    <div class="card w-75">
         <div class="card-header">
             Featured
         </div>
@@ -29,7 +44,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form method="POST" action="{{ url('admin') }}" enctype="multipart/form-data">
-                        <div class="modal-body">
+                            <div class="modal-body">
                                 @csrf
                                 {{ method_field('post') }}
                                 <div class="mb-3">
@@ -50,11 +65,11 @@
                                     <label for="formFile" class="form-label">Logo</label>
                                     <input class="form-control" type="file" name="logo" id="formFile">
                                 </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -71,23 +86,43 @@
                                 <th scope="col" width="1%">#</th>
                                 <th scope="col" width="15%">Name</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">website</th>
+                                <th scope="col">Logo</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($users as $user) --}}
-                            <tr>
-                                {{-- <th scope="row">{{ $user->id }}</th>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td> --}}
-
-
-                            </tr>
-                            {{-- @endforeach --}}
+                            @foreach ($Companies as $Companie)
+                                <tr>
+                                    <th scope="row">{{ $Companie->id }}</th>
+                                    <td>{{ $Companie->name }}</td>
+                                    <td>{{ $Companie->email }}</td>
+                                    <td><a href="{{ $Companie->website }}">{{ $Companie->website }}</a></td>
+                                    <td>
+                                        <img src="{{ asset('/storage/images/logosCompany/' . $Companie->img) }}"
+                                            alt="">
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary"
+                                            href="{{ url('admin/' . $Companie->id . '/edit') }}">
+                                            edit Company
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ url('admin/' . $Companie->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger" type="submit">
+                                                delete Company
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
                     <div class="d-flex">
-                        {{-- {!! $users->links() !!} --}}
+                        {!! $Companies->links() !!}
                     </div>
                 </div>
 
