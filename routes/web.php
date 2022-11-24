@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\CrudController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::resource("/admin", CrudController::class);
+Route::resource("admin", CrudController::class);
 
 Auth::routes();
 

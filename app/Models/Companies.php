@@ -10,8 +10,8 @@ class Companies extends Model
     protected $fillable = [
         'name',
         'email',
-        'web',
-        'password'
+        'web', 
+        'logo'
     ];
     use HasFactory;
 }

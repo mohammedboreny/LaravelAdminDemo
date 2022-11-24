@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Companies;
-use App\Models\User;
-
-
 use Illuminate\Http\Request;
 
 class CrudController extends Controller
@@ -19,7 +16,7 @@ class CrudController extends Controller
     {
         $Companies = Companies::latest()->paginate(10);
 
-        return view('/Admin', compact('Companies'));
+        return view('Admin', compact('Companies'));
     }
 
     /**
@@ -40,19 +37,35 @@ class CrudController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-      $data=$request->validate([
-            'name' => 'required',
-            'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
-            'email' => 'email', 'website' => 'required|url'
-        ]);
-       
-        Companies::create($data);
-        return redirect('/admin')->with('message','Company Added Successfully');
-    }
-    catch(\Exception $e) {
-        return redirect('/admin')->with('message','Something goes wrong',$e);
-    }
+        try {
+            $request->validate([
+                'name' => 'required',
+                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000' ,
+                'website' => 'required|url'
+            ]);
+            $Companies = new Companies;
+            $Companies->name = $request->input('name');
+            $Companies->email = $request->input('email');
+
+            $Companies->website = $request->input('website');
+
+            if ($request->hasFile('logo')) {
+                // Defining path for logo
+                $des_path = 'public/images/logosCompany';
+                // from the request store the logo imto variable image
+                $image = $request->file('logo');
+                // name the requested image with it's original name
+                $image_name = $image->getClientOriginalName();
+                // Store the logo into the public directory with the original name
+                // $path=$request->file('logo')->storeAs($des_path,$image_name);
+                // $Companies['logo']=$image_name;
+                $Companies->img = $request->file('logo')->storeAs($des_path, $image_name);
+            }
+            $Companies->save();
+            return redirect('admin')->with('message', 'Company Added Successfully');
+        } catch (\Exception $e) {
+            return redirect('admin')->with('message', 'Something goes wrong', $e);
+        }
     }
 
     /**
