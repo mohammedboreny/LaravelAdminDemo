@@ -18,7 +18,7 @@
                 @endphp
             </div>
         @endif
-        <div class="container ">
+        <div class="container justify-content-center ">
 
             <h1 class="display-3 text-center">Admin Dashboard </h1>
             <p class="lead">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="card w-75">
+    <div class="card w-100">
         <div class="card-header">
             Featured
         </div>

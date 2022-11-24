@@ -1,7 +1,8 @@
 @extends('Master')
 @section('content')
-    <a class="btn btn-danger" href="{{ url('admin') }}">back</a>
-    <div class="container">
+
+    <div class="container w-50 ">
+        <a class="btn btn-danger text-center mt-5" href="{{ url('admin') }}">back</a>
         <form method="POST" action="{{ url('admin/' . $companies->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
