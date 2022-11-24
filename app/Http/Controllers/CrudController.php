@@ -40,7 +40,7 @@ class CrudController extends Controller
         try {
             $request->validate([
                 'name' => 'required',
-                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000' ,
+                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
                 'website' => 'required|url'
             ]);
             $Companies = new Companies;
@@ -56,9 +56,7 @@ class CrudController extends Controller
                 $image = $request->file('logo');
                 // name the requested image with it's original name
                 $image_name = $image->getClientOriginalName();
-                // Store the logo into the public directory with the original name
-                // $path=$request->file('logo')->storeAs($des_path,$image_name);
-                // $Companies['logo']=$image_name;
+                // Store the logo into the public directory with the original name in database
                 $Companies->img = $request->file('logo')->storeAs($des_path, $image_name);
             }
             $Companies->save();
