@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Companies;
+use Illuminate\Support\Facades\File;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -15,9 +16,9 @@ class CrudController extends Controller
      */
     public function index()
     {
-        $Companies = Companies::latest()->paginate(10);
+        $products = Products::latest()->paginate(10);
 
-        return view('admin', compact('Companies'));
+        return view('admin', compact('products'));
     }
 
     /**
@@ -41,28 +42,28 @@ class CrudController extends Controller
         try {
             $request->validate([
                 'name' => 'required',
-                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
-                'website' => 'required|url'
-            ]);
-            $Companies = new Companies;
-            $Companies->name = $request->input('name');
-            $Companies->email = $request->input('email');
+                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
 
-            $Companies->website = $request->input('website');
+            ]);
+            $products = new Products;
+            $products->name = $request->input('name');
+            $products->price = $request->input('price');
+
+            $products->description = $request->input('description');
 
             if ($request->hasFile('logo')) {
                 // Defining path for logo
-                $des_path = 'public/images/logosCompany';
-                // from the request store the logo imto variable image
+                $des_path = 'public/images/logos';
+                // from the request store the logo into variable image
                 $image = $request->file('logo');
                 // name the requested image with it's original name
                 $image_name = $image->getClientOriginalName();
                 // Store the logo into the public directory with the original name 
                 $path = $request->file('logo')->storeAs($des_path, $image_name);
-                $Companies->img = $image_name;
+                $products->img = $image_name;
             }
-            $Companies->save();
-            return redirect('admin')->with('message', 'Company Added Successfully');
+            $products->save();
+            return redirect('admin')->with('message', 'Product Added Successfully');
         } catch (\Exception $e) {
             return redirect('admin')->with('message', 'Something goes wrong', $e);
         }
@@ -87,10 +88,10 @@ class CrudController extends Controller
      */
     public function edit($id)
     {
-        $companies = Companies::find($id);
+        $products = Products::find($id);
 
 
-        return view('edit', compact('companies'));
+        return view('edit', compact('products'));
     }
 
     /**
@@ -102,37 +103,37 @@ class CrudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $companies = Companies::find($id);
+        $products = Products::find($id);
 
         try {
             $request->validate([
                 'name' => 'required',
-                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
-                'website' => 'required|url'
+                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
             ]);
-            $Companies = new Companies;
-            $Companies->name = $request->input('name');
-            $Companies->email = $request->input('email');
+            $products->name = $request->input('name');
+            $products->price = $request->input('price');
 
-            $Companies->website = $request->input('website');
+            $products->description = $request->input('description');
 
             if ($request->hasFile('logo')) {
                 // Defining path for logo
-                $des_path = 'public/images/logosCompany';
-                // from the request store the logo imto variable image
-                $image = $request->file('logo');
+                $des_path = 'public/images/logos';
+
+                // Delete previous logo from public
+                File::delete($des_path, "/" . $products->img);
                 // name the requested image with it's original name
+                $image = $request->file('logo');
                 $image_name = $image->getClientOriginalName();
                 // Store the logo into the public directory with the original name 
                 $path = $request->file('logo')->storeAs($des_path, $image_name);
-                $Companies->img = $image_name;
+                $products->img = $image_name;
             }
-            $Companies->update();
+            $products->update();
             return redirect()->back()->with('status', 'Successfully updated');
         } catch (\Exception $e) {
             return redirect()->back()->with('status', 'Not updated', $e);
         }
-        return view('edit', compact('companies'));
+        return view('edit', compact('products'));
     }
 
     /**
@@ -143,8 +144,11 @@ class CrudController extends Controller
      */
     public function destroy($id)
     {
-        $companies = Companies::find($id);
-        $companies->delete();
-        return redirect()->back()->with('status', 'Company Successfully deleted');
+        $products = Products::find($id);
+        $des_path = 'public/images/logos';
+        // Delete from public storage
+        File::delete($des_path, "/" . $products->img);
+        $products->delete();
+        return redirect()->back()->with('status', 'products Successfully deleted');
     }
 }

@@ -3,27 +3,27 @@
 
     <div class="container w-50 ">
         <a class="btn btn-danger text-center mt-5" href="{{ url('admin') }}">back</a>
-        <form method="POST" action="{{ url('admin/' . $companies->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('admin/' . $products->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
                 <label for="floatingInput" class="form-label">Name</label>
-                <input type="text" name="name" value="{{ $companies->name }}" class="form-control" id="floatingInput"
+                <input type="text" name="name" value="{{ $products->name }}" class="form-control" id="floatingInput"
                     aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="floatingInput">Email address</label>
-                <input name="email" class="form-control" value="{{ $companies->email }}" type="text"
+                <input name="price" class="form-control" value="{{ $products->price }}" type="text"
                     placeholder="Default input" id='floatingInput' aria-label="default input example">
             </div>
-            <div class="mb-3">
-                <label for="floatingInput" class="form-label">Website</label>
-                <input type="text" name="website" value="{{ $companies->website }}" class="form-control"
-                    id="floatingInput">
-            </div>
+           
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label"> Description</label>
+                    <textarea name="description" class="form-control" value="{{ $products->description }}" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Logo</label>
-                <input class="form-control" value="{{ $companies->img }}" type="file" name="logo" id="formFile">
+                <input class="form-control" value="{{ $products->img }}" type="file" name="logo" id="formFile">
             </div>
             <button type="submit" class="btn btn-primary">edit</button>
         </form>
